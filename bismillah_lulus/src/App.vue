@@ -1,7 +1,7 @@
 <template>
   <header>
-    <div class="container">
-    <h1 class="text-center">OUR SHORTEN LINK</h1>
+    <div class="global-container">
+    <h1 class="text-center"><b>OUR SHORTEN LINK</b></h1>
     <p class="text-center"><i>make your link shorter with just one click</i></p>
       <RouterView />
       <nav>
@@ -18,5 +18,8 @@ h1 {
 }
 p {
   padding: 10px;
+}
+.global-container {
+  /* background-color: #edffff; */
 }
 </style>

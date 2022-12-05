@@ -6,27 +6,46 @@
             </div>
             <div class="card-text">
                 <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="text" class="form-control">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="text" class="form-control" id="email"
+                    v-model="App.input.user.email">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-control">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" class="form-control" id="username"
+                    v-model="App.input.user.name">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" class="form-control" id="password"
+                    v-model="App.input.user.password">
                 </div>
                 <div>
-                    <button class="btn btn-success">Register</button>
+                    <button class="btn btn-success"
+                    @click="App.addUser(App.input.user)">Register</button>
                 </div>
                 <div class="mt-2" style="text-align: center;">
                     <!-- ini nanti make router link oke -->
-                    <router-link to="/">Have a Account? Login Here</router-link>                </div>
+                    <router-link to="/">Have an Account? Login Here</router-link>                
+                </div>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import {useApp} from '../stores/index';
+export default {
+  setup() {
+    const App = useApp();
+    return {
+      App,
+    }
+  },
+  created() {
+  }
+}
+</script>
 
 <style scoped>
 html, body {
