@@ -37,51 +37,48 @@ export const useApp = defineStore({
   }),
   actions: {
     async addUser(user) {
-      await axios.post('http://127.0.0.1:3000/users', {
-        nama: user.name,
+      await axios.post('http://127.0.0.1:3000/register', {
+        // nama: user.name,
         email: user.email,
         password: user.password
       })
       .then((response) => {
         if(response.status) {
           Swal.fire({
-            title: 'Success!',
-            text: `You have register as ${user.name}`,
             icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-          });
+            title: 'Register Success',
+            text: `You have register with an email: ${user.email}`,
+            footer: '<a href="login">Continue to Login</a>'
+          })
         }
       }, (error) => {
         Swal.fire({
-          title: 'Error!',
-          text: `Seems like there is an error while adding user ${user.name}<br>${error}`,
           icon: 'error',
-          timer: 1500,
-          showConfirmButton: false,
-        });
+          title: 'There is an Error',
+          text: `You failed to register with this email: ${user.email}` <br> `${error}`,
+        })
       });
-      this.input.user.name = '';
+      // this.input.user.name = '';
       this.input.user.email = '';
       this.input.user.password = '';
     },
-    async getUsers() {
-      onSnapshot(collection(db, "users"), (querySnapshot) => {
-        let users = [];
-        querySnapshot.forEach((doc) => {
-          users.push({ id: doc.id, ...doc.data() });
-        });
-        this.users = users;
-      },
-      error => {
-        Swal.fire({
-          title: 'Error!',
-          text: `Seems like there is an error while connecting to Firestore<br>${error}`,
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        });
-      }
-      );
-    },
+    // async getUsers() {
+    //   onSnapshot(collection(db, "users"), (querySnapshot) => {
+    //     let users = [];
+    //     querySnapshot.forEach((doc) => {
+    //       users.push({ id: doc.id, ...doc.data() });
+    //     });
+    //     this.users = users;
+    //   },
+    //   error => {
+    //     Swal.fire({
+    //       title: 'Error!',
+    //       text: `Seems like there is an error while connecting to Firestore<br>${error}`,
+    //       icon: 'error',
+    //       confirmButtonText: 'Cool'
+    //     });
+    //   }
+    //   );
+    // },
   },
 });

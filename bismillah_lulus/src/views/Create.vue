@@ -1,63 +1,47 @@
 <template>
-     <nav class="navbar navbar-expand-lg bg-success p-2 text-dark">
-      <div class="container">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Links</a>
-            </li>
-          </ul>
+  <div class="global-container">
+      <div class="long-link text-center" style="margin: 50px;">
+          <label class="form-label">Your Original Link</label>
+          <div class="mb-3 row g-3" style="justify-content: center;">
+              <input type="text" class="form-control" placeholder="Input Your Long URL in here" style="width: 450px;">   
+          </div>
         </div>
-        <form class="d-flex">
-          <img src="./images/user/user.jpg" alt="user" />
-          <p>Your Account</p>
-          <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button> -->
-        </form>
+        <div class="shorten mt-5">
+          <div>
+              <label class="form-label">Customize Your Link</label>
+          </div>
+          <form class="row g-3" style="justify-content: center;">
+              <div class="col-auto">
+                  <label class="form-control">mungil.url/</label>   
+              </div>
+              <div class="col-auto">
+                  <input class="form-control" placeholder="customize-link">   
+              </div>
+              <div class="col-auto">
+                  <button class="btn btn-success">SHORTEN</button>
+              </div>
+          </form>
       </div>
-    
-    <div class="addtask">
-        <h3>Create new shorten link</h3>
-        <br>
-        <form @submit.prevent="addTask">
-            <div class="form-group row">
-               
-                <label for="newTaskDescription" class="text-left">Destination</label>
-                <input type="text" class="form-control" ref="desc" v-model="this.description" placeholder="Enter your long URL here..." required>
-                <br>
-                <!-- <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="newCampusTask" value="Campus Task" v-model="newTags">
-                    <label class="form-check-label" for="Campus Task">Campus Task</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="newOrganizationDuty" value="Organization Duty" v-model="newTags">
-                    <label class="form-check-label" for="Organization Duty">Organization Duty</label>
-                </div> -->
-             
-                <label for="titleLink">Title (optional)</label>
-                <input type="text" class="form-control" ref="desc"  placeholder="Enter your title link" required>
-                
-                <label for="titleLink">Costum link smol.ly/</label>
-                <input type="text" class="form-control" ref="desc" placeholder="comstum-link" required>
-                
+      <!-- Nanti Pakai v-if -->
+      <div class="link mt-5 text-center">
+          <div>
+              <label class="form-label">Your Link Is Ready!</label>
+          </div>
+          <div class="row g-3" style="justify-content: center;">
+              <input type="text" value="" class="form-control" style="width: 380px;" >
+          </div>
+          <br>
 
-               
-    <!-- <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-    <div class="col-sm-10">
-      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
-    </div> -->
-            </div>
-            <br>
-            <div class="shorten">
-            <button type="submit" class="btn btn-success"><router-link :to="'/link/'">SHORTEN</router-link></button>
-        </div>
-        </form>
-        <br>
-    </div>
-</nav>
+          <form class="row g-3" style="justify-content: center;">
+          <div class="col-auto">
+              <button class="btn btn-primary">MY URL</button>
+          </div>
+          <div class="col-auto">
+              <button class="btn btn-success">SHORTEN ANOTHER</button>
+          </div>
+      </form>
+      </div>
+  </div>
 </template>
 
 <script>

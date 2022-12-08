@@ -26,7 +26,7 @@
                 </div>
                 <div class="mt-2" style="text-align: center;">
                     <!-- ini nanti make router link oke -->
-                    <router-link to="/">Have an Account? Login Here</router-link>                
+                    <router-link to="/login">Have an Account? Login Here</router-link>                
                 </div>
             </div>
         </div>

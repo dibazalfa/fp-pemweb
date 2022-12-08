@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="global-container">
-    <h1 class="text-center"><b>OUR SHORTEN LINK</b></h1>
+    <h1 class="text-center"><b>MUNGIL.URL</b></h1>
     <p class="text-center"><i>make your link shorter with just one click</i></p>
       <RouterView />
       <nav>

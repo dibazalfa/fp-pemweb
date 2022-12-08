@@ -14,11 +14,11 @@
                     <input type="password" class="form-control">
                 </div>
                 <div>
-                    <button type="button" class="btn btn-success"><router-link :to="'/dashboard/'">Login</router-link></button>
+                    <button @click="App.Login(App.input.user)" type="button" class="btn btn-success">Login</button>
                 </div>
                 <div class="mt-2" style="text-align: center;">
                     <!-- ini nanti make router link oke -->
-                    <router-link to="/about">Don't Have an Account? Register Here</router-link>
+                    <router-link to="/register">Don't Have an Account? Register Here</router-link>
                 </div>
             </div>
         </div>
@@ -56,3 +56,17 @@ a {
 }
 
 </style>
+
+<script>
+import {useApp} from '../stores/index';
+export default {
+  setup() {
+    const App = useApp();
+    return {
+      App,
+    }
+  },
+  created() {
+  }
+}
+</script>
