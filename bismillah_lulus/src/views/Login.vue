@@ -6,12 +6,14 @@
             </div>
             <div class="card-text">
                 <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-control">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-control" 
+                    v-model="App.input.user.email">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-control">
+                    <input type="password" class="form-control"
+                    v-model="App.input.user.password">
                 </div>
                 <div>
                     <button @click="App.Login(App.input.user)" type="button" class="btn btn-success">Login</button>

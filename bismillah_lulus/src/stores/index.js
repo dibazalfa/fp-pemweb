@@ -36,7 +36,7 @@ export const useApp = defineStore({
     }
   }),
   actions: {
-    async addUser(user) {
+    async Register(user) {
       await axios.post('http://127.0.0.1:3000/register', {
         // nama: user.name,
         email: user.email,
@@ -55,30 +55,45 @@ export const useApp = defineStore({
         Swal.fire({
           icon: 'error',
           title: 'There is an Error',
-          text: `You failed to register with this email: ${user.email}` <br> `${error}`,
+          text: `You failed to register with this email: ${user.email}`,
         })
       });
       // this.input.user.name = '';
       this.input.user.email = '';
       this.input.user.password = '';
     },
-    // async getUsers() {
-    //   onSnapshot(collection(db, "users"), (querySnapshot) => {
-    //     let users = [];
-    //     querySnapshot.forEach((doc) => {
-    //       users.push({ id: doc.id, ...doc.data() });
-    //     });
-    //     this.users = users;
-    //   },
-    //   error => {
-    //     Swal.fire({
-    //       title: 'Error!',
-    //       text: `Seems like there is an error while connecting to Firestore<br>${error}`,
-    //       icon: 'error',
-    //       confirmButtonText: 'Cool'
-    //     });
-    //   }
-    //   );
-    // },
+    async Login(user) {
+      // try {
+      //   const {data} = await axios.post('http://127.0.0.1:3000/login', {
+      //       email: user.email,
+      //       password: user.password
+      //     })
+      // } catch(error) {
+      //   Swal.fire({
+      //       icon: 'error',
+      //       title: 'There is an Error',
+      //       text: `You failed to login with this email: ${user.email}`,
+      //     })
+      // } finally {
+      //   this.router.push('/dashboard')
+      // }
+      await axios.post('http://127.0.0.1:3000/login', {
+        email: user.email,
+        password: user.password
+      })
+      .then((response) => {
+        if(response.status) {
+          this.router.push("/dashboard");
+        }
+      }, (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'There is an Error',
+          text: `You failed to login with this email: ${user.email}`,
+        })
+      });
+      this.input.user.email = '';
+      this.input.user.password = '';
+    }
   },
 });

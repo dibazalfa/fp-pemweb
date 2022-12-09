@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <button class="btn btn-success"
-                    @click="App.addUser(App.input.user)">Register</button>
+                    @click="App.Register(App.input.user)">Register</button>
                 </div>
                 <div class="mt-2" style="text-align: center;">
                     <!-- ini nanti make router link oke -->

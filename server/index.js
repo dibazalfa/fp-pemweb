@@ -29,27 +29,10 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// app.get("/register", (req, res) => {
-//     try {
-//       db.collection("users")
-//         .get()
-//         .then((querySnapshot) => {
-//           let users = [];
-//           let id;
-//           querySnapshot.forEach((doc) => {
-//             id = doc.id;
-//             users.push({ id, ...doc.data() });
-//           });
-//           res.send(users);
-//         });
-//     } catch (error) {
-//       res.send(error);
-//     }
-//   });
-
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
+    console.log(email, password);
     const user = await signInWithEmailAndPassword(auth, email, password);
     res.status(200).json({ message: "User logged in successfully" });
   } catch (error) {
