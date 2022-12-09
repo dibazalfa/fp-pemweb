@@ -85,21 +85,37 @@ export const useApp = defineStore({
       this.input.user.email = '';
       this.input.user.password = '';
     },
+    async Logout() {
+      this.user = null;
+      this.router.push("/login")
+    },
     async addShortenList(link) {
-      await axios.post('http://127.0.0.1:3000/link', {
-        long: link.longLink,
-        short: link.shortLink,
+      await axios.post('http://127.0.0.1:3000/create', {
+        longLink: link.longLink,
+        shortLink: link.shortLink,
       }).then((response) => {
         if(response.status) {
-          this.view = true
-          this.input.link.longLink = '';
-          this.input.link.shortLink = '';
+          Swal.fire({
+            title: 'Success!',
+            text: `Succesesfully added your mungil.url!`,
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+          });
         }
       }, (error) => {
         Swal.fire({
-          icon: 'error'
+          title: 'Error 404!',
+          text: `Seems like there is an error while adding the link <br>${error}`,
+          icon: 'error',
+          timer: 1500,
+          showConfirmButton: false,
         });
       });
+      this.input.link.longLink = '';
+      this.input.link.shortLink = '';
+
+      router.push('/link');
     },
     async getLinks() {
       onSnapshot(collection(db, "links"), (QuerySnapshot) => {
@@ -108,10 +124,14 @@ export const useApp = defineStore({
           links.push({ id: doc.id, ...doc.data() });
         });
         this.links = links;
-      }, error => {
+      }, 
+      error => {
         Swal.fire({
+          title: 'Error!',
+          text: `Seems like there is an error while connecting to Firestore<br>${error}`,
           icon: 'error',
-        })
+          confirmButtonText: 'Cool'
+        });
       })
     }
   },

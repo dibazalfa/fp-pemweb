@@ -8,6 +8,9 @@
     </header>
     <body>
         <div class="global-container">
+            <div style="margin-right: 200px;">
+                <img src="../assets/login-register.png" alt="" style="height: 520px; width: 600px;">
+            </div>
             <div class="card login-form">
                 <div class="card-body">
                     <h1 class="card-title text-center"> LOGIN </h1>
@@ -52,7 +55,7 @@
     align-items: center;
     justify-content: center;
     background-color: #f0efef;
-    height: 610px;
+    height: 625px;
 }
 
 .login-form {
@@ -71,7 +74,8 @@ a {
 
 .judul {
   background-color:#c0ded9;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 5px;
 }
 
 </style>

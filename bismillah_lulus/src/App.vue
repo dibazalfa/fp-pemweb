@@ -20,7 +20,7 @@ h1 {
 }
 p {
   /* padding: 10px; */
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
 }
 .judul {
   background-color:#c0ded9;

@@ -7,6 +7,9 @@
     </div>
     </header>
   <div class="global-container">
+        <div style="margin-right: 200px;">
+            <img src="../assets/login-register.png" alt="" style="height: 520px; width: 600px;">
+        </div>
         <div class="card register-form">
             <div class="card-body">
                 <h1 class="card-title text-center"> REGISTER </h1>
@@ -18,14 +21,14 @@
                     v-model="App.input.user.email">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="username">Username</label>
-                    <input type="text" class="form-control" id="username"
-                    v-model="App.input.user.name">
-                </div>
-                <div class="mb-3">
                     <label class="form-label" for="password">Password</label>
                     <input type="password" class="form-control" id="password"
                     v-model="App.input.user.password">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="username">Confirm Password</label>
+                    <input type="text" class="form-control" id="username"
+                    v-model="App.input.user.checkPassword">
                 </div>
                 <div>
                     <button class="btn btn-success"
@@ -67,7 +70,7 @@ export default {
     align-items: center;
     justify-content: center;
     background-color: #f0efef;
-    height: 610px;
+    height: 625px;
 }
 
 .register-form {
@@ -87,6 +90,7 @@ a {
 
 .judul {
   background-color:#c0ded9;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 5px;
 }
 </style>

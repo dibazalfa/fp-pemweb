@@ -1,6 +1,22 @@
 <template>
-    <div class="taskslist">
-         
+    <div class="global-container">
+        <nav class="navbar navbar-expand-lg" style="background-color: #c0ded9;" >
+            <h1 class="navbar-brand" style="margin-left: 20px;">mungil.url</h1>
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>         
+                </button>
+            <ul class="dropdown-menu">
+                <!-- <li class="dropdown-item"><router-link to="/create">Shorten Link</router-link></li> -->
+                <li><a class="dropdown-item" href="dashboard">Homepage</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="create">Shorten Link</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" @click="App.Logout()">Logout</a></li>
+            </ul>
+            </div>
+        </nav>
+        <div class="taskslist">
             <table class="table">
                 <thead class="table table-light">
                     <tr>
@@ -28,6 +44,7 @@
                 </tbody>
             </table>    
         </div>
+    </div>
     </template>
     
     <script>
@@ -45,20 +62,9 @@
       }
     </script>
     
-    <style>
-    /* tr {
-        background-color: #3b3a30;
-    } */
-    /* .taskslist table th.edit,
-    .taskslist table th.delete {
-        width: 100px;
+    <style scoped>
+    .global-container {
+        height: 745px;
     }
-    .taskslist tbody td.description {
-        cursor: pointer
-    }
-    
-    .completed {
-        text-decoration: line-through;
-    } */
     
     </style>

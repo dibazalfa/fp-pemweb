@@ -7,15 +7,21 @@
           <i class="bi bi-person-circle"></i>         
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">log out</a></li>
+          <!-- <li class="dropdown-item"><router-link to="/link">List Link</router-link></li> -->
+          <li><a class="dropdown-item" href="dashboard">Homepage</a></li>
           <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="link">List Link</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" @click="App.Logout()">Logout</a></li>
         </ul>
       </div>
     </nav>
+    <form @submit.prevent="addLink">
+    <h1 class="text-center mt-5">SHORTEN HERE</h1>
       <div class="long-link text-center" style="margin: 50px;">
           <label class="form-label">Your Original Link</label>
           <div class="mb-3 row g-3" style="justify-content: center;">
-              <input type="text" class="form-control" placeholder="Input Your Long URL in here" style="width: 450px;"
+              <input type="url" class="form-control" placeholder="Input Your Long URL in here" style="width: 450px;"
               v-model="longLink">   
           </div>
         </div>
@@ -28,15 +34,15 @@
                   <label class="form-control">mungil.url/</label>   
               </div>
               <div class="col-auto">
-                  <input class="form-control" placeholder="customize-link"
+                  <input type="text" class="form-control" placeholder="customize-link"
                   v-model="shortLink">   
               </div>
               <div class="col-auto">
-                  <button @click="App.addShortenList(link)" class="btn btn-success">SHORTEN</button>
+                  <button @click="(show = true)" class="btn btn-success" type="button">SHORTEN</button>
               </div>
           </form>
       </div>
-      <!-- Nanti Pakai v-if -->
+      <div v-if="(show == true)">
       <div class="link mt-5 text-center">
           <div>
               <label class="form-label">Your Link Is Ready!</label>
@@ -48,30 +54,51 @@
 
           <form class="row g-3" style="justify-content: center;">
           <div class="col-auto">
+            <router-link to="/link">
               <button class="btn btn-primary">MY URL</button>
-          </div>
+            </router-link>
+        </div>
           <div class="col-auto">
-              <button class="btn btn-success">SHORTEN ANOTHER</button>
+              <button class="btn btn-success" @click="(show = false)" type="button">SHORTEN ANOTHER</button>
           </div>
-      </form>
-      </div>
+        </form>
+    </div>
+    </div>
+    </form>
   </div>
 </template>
 
 <script>
-
-
+import {useApp} from '../stores/index';
+export default {
+    data() {
+        return {
+            show: false,
+        }
+    },
+    setup() {
+        const App = useApp();
+        return {
+            App,
+        }
+    },
+    created() {
+    
+    }
+}
 </script>
 
-<style>
-/* .addtask {
-    text-align: center;
-} */
+<style scoped>
+
 h3 {
     text-align: center;
 }
 .shorten {
     text-align: center;
+}
+
+.global-container {
+    height: 730px;
 }
 
 </style>

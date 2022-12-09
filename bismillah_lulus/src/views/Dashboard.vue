@@ -7,8 +7,7 @@
           <i class="bi bi-person-circle"></i>         
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">log out</a></li>
-          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" @click="App.Logout()">Logout</a></li>
         </ul>
       </div>
     </nav>
