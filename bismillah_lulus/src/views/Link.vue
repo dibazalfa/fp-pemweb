@@ -4,30 +4,25 @@
             <table class="table">
                 <thead class="table table-light">
                     <tr>
-                        <th class="content">Link title</th>
-                        <th class="category">Date</th>
+                        <th class="content">Long Link</th>
+                        <th class="category">Short Link</th>
                         <th class="edit">Edit</th>
-                        <!-- <th class="status">Status</th> -->
                         <th class="delete">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(task,i) in tasks" :key="i">
-                        <td class="description" v-bind:class="{completed: task.completed}" @click="toggleTask(task.id, task.completed)">
-                        {{task.description}}</td>
-                        <td class="tags" >
-                            <!-- <p v-for="(data,index) in task.tags" :key="index">
-                                {{data}}
-                            </p>     -->
-                           
+                    <tr v-for="link in App.links" :key="link.id">
+                        <td>
+                            {{link.long}}
                         </td>
                         <td>
-                            <router-link :to="{'name' : 'update', 'params': {'id':task.id}}" class="btn btn-primary">Edit</router-link>
+                            {{link.short}}
                         </td>
-                        <!-- <td>
-                            <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="">
-                        </td> -->
-                        <td><button class="btn btn-danger" @click="deleteTask(task.id)">Delete</button>
+                        <td>
+                            <button class="btn btn-primary">Edit</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -36,13 +31,24 @@
     </template>
     
     <script>
-
-    
-    
-    
+    import {useApp} from '../stores/index';
+    export default {
+        setup() {
+          const App = useApp();
+          return {
+            App,
+          }
+        },
+        created() {
+            this.App.getLinks();
+        }
+      }
     </script>
     
     <style>
+    /* tr {
+        background-color: #3b3a30;
+    } */
     /* .taskslist table th.edit,
     .taskslist table th.delete {
         width: 100px;

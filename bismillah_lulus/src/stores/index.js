@@ -5,6 +5,7 @@ import {
   getFirestore,
   collection,
   onSnapshot,
+  QuerySnapshot,
 } from "firebase/firestore";
 import Swal from 'sweetalert2';
 
@@ -25,14 +26,17 @@ export const useApp = defineStore({
   id: "App",
   state: () => ({
     users: [],
+    links: [],
     menu: {
       edit_user: {
         show: false,
         data: {},
       }
     },
+    view: false,
     input: {
-      user: {}
+      user: {},
+      link : {}
     }
   }),
   actions: {
@@ -63,20 +67,6 @@ export const useApp = defineStore({
       this.input.user.password = '';
     },
     async Login(user) {
-      // try {
-      //   const {data} = await axios.post('http://127.0.0.1:3000/login', {
-      //       email: user.email,
-      //       password: user.password
-      //     })
-      // } catch(error) {
-      //   Swal.fire({
-      //       icon: 'error',
-      //       title: 'There is an Error',
-      //       text: `You failed to login with this email: ${user.email}`,
-      //     })
-      // } finally {
-      //   this.router.push('/dashboard')
-      // }
       await axios.post('http://127.0.0.1:3000/login', {
         email: user.email,
         password: user.password
@@ -88,12 +78,41 @@ export const useApp = defineStore({
       }, (error) => {
         Swal.fire({
           icon: 'error',
-          title: 'There is an Error',
+          title: 'Check Your Email / Password again',
           text: `You failed to login with this email: ${user.email}`,
         })
       });
       this.input.user.email = '';
       this.input.user.password = '';
+    },
+    async addShortenList(link) {
+      await axios.post('http://127.0.0.1:3000/link', {
+        long: link.longLink,
+        short: link.shortLink,
+      }).then((response) => {
+        if(response.status) {
+          this.view = true
+          this.input.link.longLink = '';
+          this.input.link.shortLink = '';
+        }
+      }, (error) => {
+        Swal.fire({
+          icon: 'error'
+        });
+      });
+    },
+    async getLinks() {
+      onSnapshot(collection(db, "links"), (QuerySnapshot) => {
+        let links = [];
+        QuerySnapshot.forEach((doc) => {
+          links.push({ id: doc.id, ...doc.data() });
+        });
+        this.links = links;
+      }, error => {
+        Swal.fire({
+          icon: 'error',
+        })
+      })
     }
   },
 });

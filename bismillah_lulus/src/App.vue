@@ -1,9 +1,11 @@
 <template>
   <header>
     <div class="global-container">
-    <h1 class="text-center"><b>MUNGIL.URL</b></h1>
-    <p class="text-center"><i>make your link shorter with just one click</i></p>
-      <RouterView />
+    <!-- <div class="judul">
+      <h1 class="text-center"><b>MUNGIL.URL</b></h1>
+      <p class="text-center"><i>make your link shorter with just one click</i></p>
+    </div> -->
+    <RouterView />
       <nav>
         <RouterLink to="/"></RouterLink>
         <RouterLink to="/about"></RouterLink>
@@ -14,12 +16,18 @@
 
 <style scoped>
 h1 {
-  padding-top: 50px;
+  padding-top: 20px;
 }
 p {
-  padding: 10px;
+  /* padding: 10px; */
+  padding-bottom: 20px;
 }
+.judul {
+  background-color:#c0ded9;
+}
+
 .global-container {
-  /* background-color: #edffff; */
+  background-color: #f0efef;
+  height: 610px;
 }
 </style>

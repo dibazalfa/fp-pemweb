@@ -40,6 +40,28 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/link", (req, res) => {
+  try {
+    var long = req.body.long;
+    var short = req.body.short;
+
+    db.collection("links").add({
+      long: long,
+      short: short,
+    });
+
+    res.send({
+      status: true,
+      message: "Data berhasil disimpan",
+    });
+  } catch (error) {
+    res.send({
+      status: false,
+      message: "Data gagal disimpan",
+    });
+  }
+});
+
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
