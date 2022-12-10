@@ -5,6 +5,13 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import {
+  onSnapshot,
+  collection,
+  query,
+  getDocs,
+  where
+} from "firebase/firestore"
 // import randomstring from "randomstring";
 // import * as validurl from "valid-url";
 import cors from "cors";
@@ -26,7 +33,7 @@ app.post("/register", async (req, res) => {
     res.status(400).json({ 
         message: error.message 
     });
-  }
+  }  
 });
 
 app.post("/login", async (req, res) => {
@@ -34,7 +41,10 @@ app.post("/login", async (req, res) => {
   try {
     console.log(email, password);
     const user = await signInWithEmailAndPassword(auth, email, password);
-    res.status(200).json({ message: "User logged in successfully" });
+    res.status(200);
+    res.send({
+      userid : user.user.uid
+    })
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -44,10 +54,14 @@ app.post("/link", (req, res) => {
   try {
     var long = req.body.long;
     var short = req.body.short;
+    let userId = req.body.userId
+
+    console.log(req.body)
 
     db.collection("links").add({
       long: long,
       short: short,
+      userId : userId
     });
 
     res.send({
@@ -55,6 +69,7 @@ app.post("/link", (req, res) => {
       message: "Data berhasil disimpan",
     });
   } catch (error) {
+    console.log(error)
     res.send({
       status: false,
       message: "Data gagal disimpan",
@@ -62,9 +77,56 @@ app.post("/link", (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
+app.get("/link", (req, res) => {
+  try {
+  
+    onSnapshot(collection(db, "links"), (QuerySnapshot) => {
+      let links = [];
+      QuerySnapshot.forEach((doc) => {
+        links.push({ id: doc.id, ...doc.data() });
+      });
+      res.send(links)
+    })
+
+  } catch (err) {
+    console.log(err)
+  }
 });
+
+app.get("/link/:uid", async(req, res) => {
+  const uid = req.params.uid
+  const q = query(collection(db, "links"), where("userId", "==", uid));
+  const querySnapshot = await getDocs(q);
+  let links = [] 
+  console.log(uid)
+  querySnapshot.forEach((doc) => {
+    console.log(doc.data())
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+    links.push({ id: doc.id, ...doc.data() });
+  });
+  res.send(links)
+})
+
+//wait bingung
+app.get("/link/redirect/:short", async(req,res)=>{
+  const {short} = req.params;
+  try{
+    let links = {}; 
+    const q = query(collection(db,"links"), where("short" , "==", short))
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc)=>{
+      links = doc.data()
+    })
+    res.send({
+      message: "Success Redirect",
+      links: links
+    })
+  }
+  catch(err){
+    console.log(err)
+  }
+})
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);

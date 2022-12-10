@@ -16,31 +16,31 @@
         </ul>
       </div>
     </nav>
-    <form @submit.prevent="addLink">
+    <form @submit.prevent="App.addShortenLink(App.input.link)">
     <h1 class="text-center mt-5">SHORTEN HERE</h1>
       <div class="long-link text-center" style="margin: 50px;">
           <label class="form-label">Your Original Link</label>
           <div class="mb-3 row g-3" style="justify-content: center;">
-              <input type="url" class="form-control" placeholder="Input Your Long URL in here" style="width: 450px;"
-              v-model="longLink">   
+              <input type="url" class="form-control" required placeholder="Input Your Long URL in here" style="width: 450px;"
+            v-model="App.input.link.longLink">   
           </div>
         </div>
         <div class="shorten mt-5">
           <div>
               <label class="form-label">Customize Your Link</label>
           </div>
-          <form class="row g-3" style="justify-content: center;">
+          <div class="row g-3" style="justify-content: center;">
               <div class="col-auto">
                   <label class="form-control">mungil.url/</label>   
               </div>
               <div class="col-auto">
-                  <input type="text" class="form-control" placeholder="customize-link"
-                  v-model="shortLink">   
+                  <input type="text" required class="form-control" placeholder="customize-link"
+                  v-model="App.input.link.shortLink ">   
               </div>
               <div class="col-auto">
-                  <button @click="(show = true)" class="btn btn-success" type="button">SHORTEN</button>
+                  <button @click="show = true; " class="btn btn-success" type="submit">SHORTEN</button>
               </div>
-          </form>
+            </div>
       </div>
       <div v-if="(show == true)">
       <div class="link mt-5 text-center">
@@ -48,7 +48,8 @@
               <label class="form-label">Your Link Is Ready!</label>
           </div>
           <div class="row g-3" style="justify-content: center;">
-              <input type="text" value="" class="form-control" style="width: 380px;">
+              <input v-model="App.createdLink" type="text" class="form-control" style="width: 380px;">
+              <!-- <input type="text" class="form-control" style="width: 380px;"> -->
           </div>
           <br>
 

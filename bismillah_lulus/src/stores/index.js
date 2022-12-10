@@ -11,14 +11,14 @@ import Swal from 'sweetalert2';
 
 // isikan firebaseConfig disini
 const firebaseConfig = {
-  apiKey: "AIzaSyAS1Hy3s9_FQJqvDg3DzF1PgXpawch5Ovs",
-  authDomain: "express-31cf2.firebaseapp.com",
-  projectId: "express-31cf2",
-  storageBucket: "express-31cf2.appspot.com",
-  messagingSenderId: "633424064631",
-  appId: "1:633424064631:web:858334c137561b98761672"
+  apiKey: "AIzaSyA72Bzke3fKirynWq1vqkswnB7VbPQoJWU",
+  authDomain: "final-project-47af7.firebaseapp.com",
+  projectId: "final-project-47af7",
+  storageBucket: "final-project-47af7.appspot.com",
+  messagingSenderId: "276976640348",
+  appId: "1:276976640348:web:29f61c2a9d81cd2801e199"
 };
-  
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 
@@ -36,8 +36,12 @@ export const useApp = defineStore({
     view: false,
     input: {
       user: {},
-      link : {}
-    }
+      link: {
+        shortLink: "",
+        longLink: ""
+      }
+    },
+    createdLink : ""
   }),
   actions: {
     async Register(user) {
@@ -46,22 +50,22 @@ export const useApp = defineStore({
         email: user.email,
         password: user.password
       })
-      .then((response) => {
-        if(response.status) {
+        .then((response) => {
+          if (response.status) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Register Success',
+              text: `You have register with an email: ${user.email}`,
+              footer: '<a href="login">Continue to Login</a>'
+            })
+          }
+        }, (error) => {
           Swal.fire({
-            icon: 'success',
-            title: 'Register Success',
-            text: `You have register with an email: ${user.email}`,
-            footer: '<a href="login">Continue to Login</a>'
+            icon: 'error',
+            title: 'There is an Error',
+            text: `You failed to register with this email: ${user.email}`,
           })
-        }
-      }, (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'There is an Error',
-          text: `You failed to register with this email: ${user.email}`,
-        })
-      });
+        });
       // this.input.user.name = '';
       this.input.user.email = '';
       this.input.user.password = '';
@@ -71,17 +75,19 @@ export const useApp = defineStore({
         email: user.email,
         password: user.password
       })
-      .then((response) => {
-        if(response.status) {
-          this.router.push("/dashboard");
-        }
-      }, (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Check Your Email / Password again',
-          text: `You failed to login with this email: ${user.email}`,
-        })
-      });
+        .then((response) => {
+          console.log(response.data.userid)
+            localStorage.setItem("userId", response.data.userid )
+            this.router.push("/dashboard");
+        }).catch((err) => {
+          (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Check Your Email / Password again',
+              text: `You failed to login with this email: ${user.email}`,
+            })
+          }
+        });
       this.input.user.email = '';
       this.input.user.password = '';
     },
@@ -89,12 +95,16 @@ export const useApp = defineStore({
       this.user = null;
       this.router.push("/login")
     },
-    async addShortenList(link) {
-      await axios.post('http://127.0.0.1:3000/create', {
-        longLink: link.longLink,
-        shortLink: link.shortLink,
+    async addShortenLink(link) {
+      console.log("test")
+      const uid = localStorage.getItem("userId")
+      console.log(uid)
+      await axios.post('http://127.0.0.1:3000/link', {
+        long: link.longLink,
+        short: link.shortLink,
+        userId: uid
       }).then((response) => {
-        if(response.status) {
+        if (response.status) { 
           Swal.fire({
             title: 'Success!',
             text: `Succesesfully added your mungil.url!`,
@@ -112,27 +122,30 @@ export const useApp = defineStore({
           showConfirmButton: false,
         });
       });
+      this.createdLink = "http://localhost:5173/" + link.shortLink
       this.input.link.longLink = '';
       this.input.link.shortLink = '';
 
-      router.push('/link');
+      // this.$router.push('/link');
     },
     async getLinks() {
-      onSnapshot(collection(db, "links"), (QuerySnapshot) => {
-        let links = [];
-        QuerySnapshot.forEach((doc) => {
-          links.push({ id: doc.id, ...doc.data() });
-        });
-        this.links = links;
-      }, 
-      error => {
-        Swal.fire({
-          title: 'Error!',
-          text: `Seems like there is an error while connecting to Firestore<br>${error}`,
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        });
+      axios.get("http://localhost:3000/link/"+ localStorage.getItem("userId")).then(res => {  
+        this.links = res.data
+      }).catch(err =>
+        error => {
+          Swal.fire({
+            title: 'Error!',
+            text: `Seems like there is an error while connecting to Firestore<br>${error}`,
+            icon: 'error',
+            confirmButtonText: 'Cool'
+          });
+        })
+    },
+    async redirect(short){
+      const res = await axios.get(`http://127.0.0.1:3000/link/redirect/${short}`).catch((err)=>{
+        console.log(err)
       })
+      window.location.href= res.data.links.long
     }
   },
 });

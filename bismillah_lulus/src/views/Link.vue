@@ -18,12 +18,13 @@
         </nav>
         <div class="taskslist">
             <table class="table">
-                <thead class="table table-light">
-                    <tr>
-                        <th class="content">Long Link</th>
+                <thead class="table">
+                    <tr style="font-size: 20px;">
+                        <th class="content" >Long Link</th>
                         <th class="category">Short Link</th>
                         <th class="edit">Edit</th>
                         <th class="delete">Delete</th>
+                        <th class="count">Click Count</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,13 +33,18 @@
                             {{link.long}}
                         </td>
                         <td>
-                            {{link.short}}
+                            <!-- <router-link to="">http://localhost:5173/{{link.short}}</router-link> -->
+                            <!-- {{App.createdLink}} -->
+                            <span @click="App.redirect(link.short)">mungil.url/{{link.short}}</span>
                         </td>
                         <td>
                             <button class="btn btn-primary">Edit</button>
                         </td>
                         <td>
                             <button class="btn btn-danger">Delete</button>
+                        </td>
+                        <td class="text-center">
+                            <span>0</span>
                         </td>
                     </tr>
                 </tbody>
@@ -65,6 +71,10 @@
     <style scoped>
     .global-container {
         height: 745px;
+    }
+
+    .taskslist {
+        padding: 20px;
     }
     
     </style>

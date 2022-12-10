@@ -33,6 +33,10 @@ const router = createRouter({
       path: '/link',
       name: 'link',
       component: () => import('../views/Link.vue')
+    },
+    //bikin route yang ada params nya
+    {
+      path: '/link'
     }
   ]
 })
