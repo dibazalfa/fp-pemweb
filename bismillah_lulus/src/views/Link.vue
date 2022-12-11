@@ -38,13 +38,20 @@
                             <span @click="App.redirect(link.short)">mungil.url/{{link.short}}</span>
                         </td>
                         <td>
-                            <button class="btn btn-primary">Edit</button>
+                            <button v-if="link.edit == false" class="btn btn-primary" @click="link.edit = true">Edit</button>
+                            <div v-if="link.edit == true">
+                                    <input class="form-control" v-model="link.long">
+                                    <input class="form-control" v-model="link.short">
+                                    <button class="btn btn-success" @click="App.editLink(link.id), link.edit = false">Save</button>
+                            </div>
                         </td>
+                        <!-- wait gatau -->
                         <td>
-                            <button class="btn btn-danger">Delete</button>
+                            <!-- <button class="btn btn-danger" @click.prevent="App.deleteShort(short.id)">Delete </button> -->
+                            <button class="btn btn-danger" @click.prevent="App.deleteShort(link.id)" type="button">Delete </button>
                         </td>
                         <td class="text-center">
-                            <span>0</span>
+                            <span>{{link.count}}</span>
                         </td>
                     </tr>
                 </tbody>
@@ -56,6 +63,11 @@
     <script>
     import {useApp} from '../stores/index';
     export default {
+        data() {
+        return {
+            show: false,
+        }
+        },
         setup() {
           const App = useApp();
           return {

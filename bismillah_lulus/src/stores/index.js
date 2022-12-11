@@ -6,6 +6,7 @@ import {
   collection,
   onSnapshot,
   QuerySnapshot,
+  deleteDoc
 } from "firebase/firestore";
 import Swal from 'sweetalert2';
 
@@ -28,7 +29,7 @@ export const useApp = defineStore({
     users: [],
     links: [],
     menu: {
-      edit_user: {
+      edit_link: {
         show: false,
         data: {},
       }
@@ -38,7 +39,8 @@ export const useApp = defineStore({
       user: {},
       link: {
         shortLink: "",
-        longLink: ""
+        longLink: "",
+        edit: false,
       }
     },
     createdLink : ""
@@ -102,6 +104,7 @@ export const useApp = defineStore({
       await axios.post('http://127.0.0.1:3000/link', {
         long: link.longLink,
         short: link.shortLink,
+        edit: link.edit,
         userId: uid
       }).then((response) => {
         if (response.status) { 
@@ -146,6 +149,55 @@ export const useApp = defineStore({
         console.log(err)
       })
       window.location.href= res.data.links.long
+    },
+    async deleteShort(link_id) {
+      // await axios.delete(`http://127.0.0.1:3000/link/delete${short.id}`)
+      await axios.delete(`http://127.0.0.1:3000/link/` + link_id)
+      .then((response) => {
+        // console.log(err)
+        if(response.status) {
+          console.log("test")
+          Swal.fire({
+            title: 'Success!',
+            text: `Succesesfully delete shorten link! mungil.url/${this.links.find(link => link.id === link_id).short}`,
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        }
+        this.getLinks()
+        this.links = []
+      }, (error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: `Seems like there is an error while deleting link ${this.links.find(link => link.id === link_id).short}<br>${error}`,
+          icon: 'error',
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      });
+    },
+    async editLink(link) {
+      await axios.patch('http://127.0.0.1:3000/link/' + link.id, link)
+      .then((response) => {
+        if(response.status) {
+          Swal.fire({
+            title: 'Success!',
+            text: `Succesesfully update  mungil.url/${link.short}`,
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        }
+      }, (error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: `Seems like there is an error while updating user ${link.short}<br>${error}`,
+          icon: 'error',
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      });
     }
   },
 });

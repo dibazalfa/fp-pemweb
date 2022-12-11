@@ -36,7 +36,8 @@ const router = createRouter({
     },
     //bikin route yang ada params nya
     {
-      path: '/link'
+      // path: '/link/:id',
+      // name: 'link',
     }
   ]
 })

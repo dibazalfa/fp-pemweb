@@ -10,7 +10,8 @@ import {
   collection,
   query,
   getDocs,
-  where
+  where,
+  updateDoc
 } from "firebase/firestore"
 // import randomstring from "randomstring";
 // import * as validurl from "valid-url";
@@ -54,6 +55,7 @@ app.post("/link", (req, res) => {
   try {
     var long = req.body.long;
     var short = req.body.short;
+    var edit = req.body.edit;
     let userId = req.body.userId
 
     console.log(req.body)
@@ -61,7 +63,9 @@ app.post("/link", (req, res) => {
     db.collection("links").add({
       long: long,
       short: short,
-      userId : userId
+      userId : userId,
+      count: 0,
+      edit: false,
     });
 
     res.send({
@@ -115,9 +119,13 @@ app.get("/link/redirect/:short", async(req,res)=>{
     let links = {}; 
     const q = query(collection(db,"links"), where("short" , "==", short))
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc)=>{
-      links = doc.data()
+    await updateDoc(q, {
+      count: increment(1)
     })
+    // querySnapshot.forEach((doc)=>{
+    //   links = doc.data()
+    //})
+   
     res.send({
       message: "Success Redirect",
       links: links
@@ -127,6 +135,50 @@ app.get("/link/redirect/:short", async(req,res)=>{
     console.log(err)
   }
 })
+
+//DELETE
+app.delete('/link/:id', (req, res) => {
+  try {
+    db.collection('links')
+      .doc(req.params.id)
+      .delete()
+      .then(() => {
+        res.send({
+          status: true,
+          message: 'Data berhasil dihapus',
+        });
+      });
+  } catch (error) {
+    res.send({
+      status: false,
+      message: 'Data gagal dihapus',
+    });
+  }
+});
+
+//UPDATE
+app.patch("/link/:id", (req, res) => {
+  try {
+    db.collection("links")
+      .doc(req.params.id)
+      .update({
+        long: req.body.long,
+        short: req.body.short,
+        edit: req.body.edit,
+      })
+      .then(() => {
+        res.send({
+          status: true,
+          message: "Data berhasil diubah",
+        });
+      });
+  } catch (error) {
+    res.send({
+      status: false,
+      message: "Data gagal diubah",
+    });
+  }
+});
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
